@@ -1,0 +1,36 @@
+{
+  "name": "linkedit-mcp",
+  "version": "0.1.0",
+  "description": "MCP server to read and edit LinkedIn profiles — headline, about, experience, education, and skills.",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "linkedit-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "linkedin",
+    "profile",
+    "career",
+    "model-context-protocol"
+  ],
+  "author": "SimbioLabs",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.1",
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.7",
+    "open": "^10.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "typescript": "^5.8.2"
+  }
+}
