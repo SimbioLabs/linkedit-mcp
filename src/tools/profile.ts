@@ -10,25 +10,13 @@ export function registerProfileTools(server: McpServer): void {
     async () => {
       const client = createLinkedInClient();
 
-      const [profileRes, emailRes] = await Promise.all([
-        client.get("/v2/me", {
-          params: {
-            projection:
-              "(id,firstName,lastName,headline,vanityName,summary,profilePicture(displayImage~:playableStreams))",
-          },
-        }),
-        client.get("/v2/emailAddress?q=members&projection=(elements*(handle~))"),
-      ]);
+      const res = await client.get("/v2/userinfo");
 
       return {
         content: [
           {
             type: "text",
-            text: JSON.stringify(
-              { profile: profileRes.data, email: emailRes.data },
-              null,
-              2
-            ),
+            text: JSON.stringify(res.data, null, 2),
           },
         ],
       };
@@ -47,11 +35,11 @@ export function registerProfileTools(server: McpServer): void {
     async ({ headline }) => {
       const client = createLinkedInClient();
 
-      const meRes = await client.get("/v2/me?projection=(id,firstName)");
-      const userId: string = meRes.data.id;
-      const locale = meRes.data.firstName.preferredLocale as {
-        language: string;
-        country: string;
+      const meRes = await client.get("/v2/userinfo");
+      const userId: string = meRes.data.sub;
+      const locale = (meRes.data.locale as { language: string; country: string }) ?? {
+        language: "en",
+        country: "US",
       };
       const localeKey = `${locale.language}_${locale.country}`;
 
@@ -86,8 +74,8 @@ export function registerProfileTools(server: McpServer): void {
     async ({ about }) => {
       const client = createLinkedInClient();
 
-      const meRes = await client.get("/v2/me?projection=(id)");
-      const userId: string = meRes.data.id;
+      const meRes = await client.get("/v2/userinfo");
+      const userId: string = meRes.data.sub;
 
       await client.patch(`/v2/people/(id:${userId})`, {
         patch: { $set: { summary: about } },

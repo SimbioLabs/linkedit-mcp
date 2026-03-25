@@ -10,8 +10,8 @@ export function registerSkillsTools(server: McpServer): void {
     async () => {
       const client = createLinkedInClient();
 
-      const meRes = await client.get("/v2/me?projection=(id)");
-      const userId: string = meRes.data.id;
+      const meRes = await client.get("/v2/userinfo");
+      const userId: string = meRes.data.sub;
 
       const res = await client.get("/v2/skills", {
         params: {
@@ -40,8 +40,8 @@ export function registerSkillsTools(server: McpServer): void {
     async ({ skill_name }) => {
       const client = createLinkedInClient();
 
-      const meRes = await client.get("/v2/me?projection=(id)");
-      const userId: string = meRes.data.id;
+      const meRes = await client.get("/v2/userinfo");
+      const userId: string = meRes.data.sub;
 
       await client.post("/v2/skills", {
         member: `urn:li:member:${userId}`,

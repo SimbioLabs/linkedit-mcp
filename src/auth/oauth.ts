@@ -9,10 +9,10 @@ const LINKEDIN_AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization";
 const LINKEDIN_TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken";
 
 const SCOPES = [
-  "r_liteprofile",
-  "r_emailaddress",
+  "openid",
+  "profile",
+  "email",
   "w_member_social",
-  "r_member_social",
 ];
 
 export async function startOAuthFlow(

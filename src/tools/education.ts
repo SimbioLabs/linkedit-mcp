@@ -10,8 +10,8 @@ export function registerEducationTools(server: McpServer): void {
     async () => {
       const client = createLinkedInClient();
 
-      const meRes = await client.get("/v2/me?projection=(id)");
-      const userId: string = meRes.data.id;
+      const meRes = await client.get("/v2/userinfo");
+      const userId: string = meRes.data.sub;
 
       const res = await client.get("/v2/educations", {
         params: {
@@ -60,8 +60,8 @@ export function registerEducationTools(server: McpServer): void {
     }) => {
       const client = createLinkedInClient();
 
-      const meRes = await client.get("/v2/me?projection=(id)");
-      const userId: string = meRes.data.id;
+      const meRes = await client.get("/v2/userinfo");
+      const userId: string = meRes.data.sub;
 
       const education: Record<string, unknown> = {
         schoolName: school_name,
